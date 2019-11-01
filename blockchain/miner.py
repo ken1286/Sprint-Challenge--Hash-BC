@@ -30,10 +30,12 @@ def proof_of_work(last_proof):
     #  TODO: Your code here
     # last_hash_string = f'{last_proof}'.encode()
     # last_hash = hashlib.sha256(last_hash_string).hexdigest()
-    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
+    last_hash = hashlib.sha256(f'{last_proof}'.encode()).hexdigest()
 
+    num_rand = random.randrange(0, 99137)
     while not valid_proof(last_hash, proof):
-        proof += random.randrange(0, 9111111111111119)
+        # proof += random.randrange(0, 99137) + 3
+        proof += num_rand
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -48,7 +50,7 @@ def valid_proof(last_hash, proof):
     """
 
     # guess = f'{proof}'.encode()
-    guess_hash = hashlib.sha256(str(proof).encode()).hexdigest()
+    guess_hash = hashlib.sha256(f'{proof}'.encode()).hexdigest()
     return last_hash[-6:] == guess_hash[:6]
 
 
